@@ -1,6 +1,7 @@
 package tabler
 
-
 object Main extends App {
-  println("Tabler")
+  println("Wedding table plan solver")
+  println("-------------------------")
+  println("")
 }
