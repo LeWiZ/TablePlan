@@ -12,6 +12,8 @@ case class Pool(val scenarios: IndexedSeq[(Scenario, Double)]) {
 
   def best: Scenario = scenarios.last._1
 
+  def averageFit: Double = scenarios.unzip._2.sum / scenarios.size
+
   def pickRandom: Scenario = scenarios(Random.nextInt(size))._1
 
 }

@@ -81,6 +81,9 @@ object Loader {
     val guests: Seq[Guest] = for (i <- names.indices if inclusions(i)) yield Guest(names(i), joints(i), ages(i), languages(i), enemies(i), groups(i))
     val tables: Seq[Table] = tableSizes.zipWithIndex.map(c => Table(c._2.toString, c._1, Set[Guest]()))
 
+    Logger(2, names.size.toString + " names found ; " + guests.size.toString + " included.")
+    Logger(2, tables.size.toString + " tables found.")
+
     (guests.toSet, tables.toSet)
   }
 

@@ -12,7 +12,7 @@ class Genetic(val fit: Fitness, val gen: Generator, val mRate: Double, val cj: B
 
   def killOne(p: Pool): Pool = {
     val rnd: Double = Random.nextDouble()
-    val index: Int = (rnd * rnd * p.size).toInt
+    val index: Int = (rnd * rnd * rnd * (p.size-1)).toInt
     p.remove(index)
   }
 

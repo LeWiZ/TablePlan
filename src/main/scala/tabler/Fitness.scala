@@ -16,20 +16,21 @@ class Fitness(val jFac: Double,
     }
 
     // Age homogeneity
-    val ageDiff: Seq[Double] = others.toSeq.map(g => (gue.age - g.age).abs.toDouble)
-    val aFit: Double = ageDiff.sum / (ageDiff.max * ageDiff.length)
+    val ageRat: Seq[Double] = others.toSeq.map(g => (gue.age.toDouble - g.age.toDouble).abs / gue.age.toDouble)
+    val aFit: Double = (2.0d - ageRat.sum / ageRat.length) / 2.0d
 
     // Shared language
     val lFit: Double = others.toSeq.map(o => gue.langageProximity(o)).sum / others.size
 
     // Presence of enemies
-    val eFit: Double = if (others.exists(o => gue.enemies.contains(o.name))) 1.0d else 0.0d
+    val eFit: Double = if (others.exists(o => gue.enemies.contains(o.name))) 0.0d else 1.0d
 
     // Shared group
     val gFit: Double = others.count(g => !g.groups.intersect(gue.groups).isEmpty).toDouble / others.size
 
     // Consolidate partial fitnesses with factors
     jFit * jFac + aFit * aFac + lFit * lFac + eFit * eFac + gFit * gFac
+
   }
 
   def apply(tab: Table): Double = tab.occupants.toSeq.map(this(_,tab)).sum

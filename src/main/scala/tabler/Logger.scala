@@ -1,9 +1,11 @@
 package tabler
 
 object Logger {
-  def log1(s: String) = println("### " + s)
-  def log2(s: String) = println(" ## " + s)
-  def log3(s: String) = println("  # " + s)
+  def apply(l: Int, s: String) = {
+    if (l <= 1) println("### " + s)
+    else if (l == 2) println(" ## " + s)
+    else println("  #" + s)
+  }
 
   def warning(s: String) = println("  !" + s)
   def error(s: String) = {
