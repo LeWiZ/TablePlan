@@ -9,9 +9,10 @@ class Fitness(val jFac: Double,
     val others: Set[Guest] = tab.occupants - gue
 
     // Check the presence of the joint at the table, if any
-    val jFit: Double = gue.joint match {
-      case None => 1.0d
-      case Some(j: Guest) => if (tab.contains(j)) 1.0d else 0.0d
+    val jFit: Double = {
+      if (gue.joint == "") 0.0
+      else if (tab.contains(gue.joint)) 1.0d
+      else 0.0d
     }
 
     // Age homogeneity
@@ -19,10 +20,10 @@ class Fitness(val jFac: Double,
     val aFit: Double = ageDiff.sum / (ageDiff.max * ageDiff.length)
 
     // Shared language
-    val lFit: Double = others.count(g => !g.languages.intersect(gue.languages).isEmpty).toDouble / others.size
+    val lFit: Double = others.toSeq.map(o => gue.langageProximity(o)).sum / others.size
 
     // Presence of enemies
-    val eFit: Double = if (gue.enemies.intersect(others).isEmpty) 1.0d else 0.0d
+    val eFit: Double = if (others.exists(o => gue.enemies.contains(o.name))) 1.0d else 0.0d
 
     // Shared group
     val gFit: Double = others.count(g => !g.groups.intersect(gue.groups).isEmpty).toDouble / others.size

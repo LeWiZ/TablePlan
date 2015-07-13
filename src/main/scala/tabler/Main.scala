@@ -2,10 +2,16 @@ package tabler
 
 object Main extends App {
 
-  println("Wedding table plan solver")
-  println("-------------------------")
-  println("")
+  if (args(0) != "") {
+    println("Wedding table plan solver")
+    println("-------------------------")
+    println("")
 
-  Loader("https://docs.google.com/spreadsheets/d/1jYX0bl_s36EDiIRcS1tKgYhaKTgD6n5KbEfyDXUqrIc/export?gid=0&format=csv")
+    Loader("https://docs.google.com/spreadsheets/d/" + args(0) + "/export?gid=0&format=csv")
+  }
+  else {
+    println("Usage : tabler spreadsheet_id")
+    println("  spreadsheet_id : the unique token in Google Spreadsheet URL (sharing being activated)")
+  }
 
 }
