@@ -15,10 +15,10 @@ object Main extends App {
     val empty: Scenario = Scenario(data._2)
 
     val generator: Generator = new Generator
-    val genetic: Genetic = new Genetic(generator, 1.0d, false)
+    val genetic: Genetic = new Genetic(generator, 1.0d, 100, false)
 
     Logger(1, "Initializing pool with random tables...")
-    val initPool: Pool = genetic.randomPool(300, empty, guests)
+    val initPool: Pool = genetic.randomPool(empty, guests)
 
     def iterations(p: Pool, i: Int, m: Int, step: Int): Pool = {
       if (i >= m) p
@@ -30,7 +30,7 @@ object Main extends App {
     }
 
     Logger(1, "Genetic iterations...")
-    val newPool: Pool = iterations(initPool, 0, 1000000, 1000)
+    val newPool: Pool = iterations(initPool, 0, 1000000, 10000)
 
     println("Pool size : " + newPool.size.toString)
     println("Best fitness : " + newPool.best.fitness.toString)
