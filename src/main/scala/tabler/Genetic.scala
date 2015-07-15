@@ -1,19 +1,20 @@
 package tabler
 
 import scala.util.Random
+import scala.collection.SortedSet
 
-class Genetic(val fit: Fitness, val gen: Generator, val mRate: Double, val cj: Boolean) {
+class Genetic(val gen: Generator, val mRate: Double, val cj: Boolean) {
 
   def randomPool(size: Int, empty: Scenario, guests: Set[Guest]): Pool = {
     val scnList: Iterable[Scenario] = for (i <- 0 to size) yield gen.randomFill(empty, guests, cj)
-    val fitList: Iterable[(Scenario, Double)] = scnList map (s => (s, fit(s)))
-    Pool(fitList.toIndexedSeq.sortBy(_._2))
+    Pool(SortedSet[Scenario]()(ScenarioOrdering) ++  scnList)
   }
 
   def killOne(p: Pool): Pool = {
     val rnd: Double = Random.nextDouble()
     val index: Int = (rnd * rnd * rnd * (p.size-1)).toInt
     p.remove(index)
+    // p.removeWorst
   }
 
   def step(p: Pool): Pool = {
@@ -21,7 +22,7 @@ class Genetic(val fit: Fitness, val gen: Generator, val mRate: Double, val cj: B
       if (Random.nextDouble() < mRate) gen.mutation(p.pickRandom, cj)
       else gen.crossOver(p.pickRandom, p.pickRandom, cj)
     }
-    val grownPool: Pool = p.add(newScn, fit(newScn))
+    val grownPool: Pool = p.add(newScn, Fitness(newScn))
     if (grownPool.size > p.size) killOne(grownPool)
     else grownPool
   }

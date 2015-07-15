@@ -1,10 +1,12 @@
 package tabler
 
-class Fitness(val jFac: Double,
-              val aFac: Double,
-              val lFac: Double,
-              val eFac: Double,
-              val gFac: Double) {
+object Fitness {
+  val jFac: Double = 0.35d
+  val aFac: Double = 0.15d
+  val lFac: Double = 0.05d
+  val eFac: Double = 0.35d
+  val gFac: Double = 0.1d
+
   def apply(gue: Guest, tab: Table): Double = {
     val others: Set[Guest] = tab.occupants - gue
 

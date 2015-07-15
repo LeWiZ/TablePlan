@@ -15,17 +15,16 @@ object Main extends App {
     val empty: Scenario = Scenario(data._2)
 
     val generator: Generator = new Generator
-    val fitness: Fitness = new Fitness(0.35d, 0.15d, 0.05d, 0.35d, 0.1d)
-    val genetic: Genetic = new Genetic(fitness, generator, 1.0d, false)
+    val genetic: Genetic = new Genetic(generator, 1.0d, false)
 
     Logger(1, "Initializing pool with random tables...")
-    val initPool: Pool = genetic.randomPool(1000, empty, guests)
+    val initPool: Pool = genetic.randomPool(300, empty, guests)
 
     def iterations(p: Pool, i: Int, m: Int, step: Int): Pool = {
       if (i >= m) p
       else {
         val np: Pool = genetic.nStep(p, step)
-        Logger(2, (i+step).toString + " iterations done. Best fitness is " + fitness(np.best) + ".")
+        Logger(2, (i+step).toString + " iterations done. Best fitness is " + np.best.fitness + ".")
         iterations(np, i+step, m, step)
       }
     }
@@ -34,7 +33,7 @@ object Main extends App {
     val newPool: Pool = iterations(initPool, 0, 1000000, 1000)
 
     println("Pool size : " + newPool.size.toString)
-    println("Best fitness : " + fitness(newPool.best).toString)
+    println("Best fitness : " + newPool.best.fitness.toString)
     println("Total guests : " + newPool.best.tables.toSeq.map(_.occupants.size).sum.toString)
     println("Total tables : " + newPool.best.tables.size.toString)
     println("")

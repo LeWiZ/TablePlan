@@ -69,7 +69,7 @@ object Loader {
     if (nl.nonEmpty) Logger.error("Non-existant language name : " + nl.get)
 
     // Get the list of guests' enemies
-    val enemies: Seq[Set[String]] = csv.allFrom(5,1).map(s => s.split(',').toSet)
+    val enemies: Seq[Set[String]] = csv.allFrom(5,1).map(s => s.split(';').toSet)
     val ne: Option[String] = enemies.flatten.filter(_ != "").find(e => !names.contains(e))
     if (ne.nonEmpty) Logger.error("Non-existant enemy name : " + ne.get)
 
